@@ -4,7 +4,7 @@ import axios from "axios";
 import Login from "./component/auth/Login";
 import TestPage from "./component/test-page/TestPage";
 import ResultPage from "./component/result-page/ResultPage";
-
+import './tailwind.css';
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [category, setCategory] = useState("");
