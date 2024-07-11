@@ -11,18 +11,21 @@ const TestPage = ({ questions, onComplete }) => {
   const [timeLeft, setTimeLeft] = useState(300);
   const [showResult, setShowResult] = useState(false);
 
+ 
+  const [answeredQuestions, setAnsweredQuestions] = useState({});
+
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prevTime) => {
         if (prevTime <= 1) {
           clearInterval(timer);
-          handleCompletion(); // Call handleCompletion when time runs out
+          handleCompletion(); 
         }
         return prevTime - 1;
       });
     }, 1000);
 
-    return () => clearInterval(timer); // Clean up timer on component unmount
+    return () => clearInterval(timer); 
   }, []);
 
   const handleAnswerChange = (optionId) => {
@@ -30,11 +33,16 @@ const TestPage = ({ questions, onComplete }) => {
       ...userAnswers,
       [currentQuestionIndex]: optionId,
     });
+
+    setAnsweredQuestions({
+      ...answeredQuestions,
+      [currentQuestionIndex]: true,
+    });
   };
 
   const handleCompletion = () => {
     onComplete(userAnswers, notes);
-    setShowResult(true); // Show result page after completing test
+    setShowResult(true); 
   };
 
   const currentQuestion = limitedQuestions[currentQuestionIndex];
@@ -52,13 +60,7 @@ const TestPage = ({ questions, onComplete }) => {
     );
   };
 
-  if (showResult) {
-    return (
-      <div className="result-page p-4 lg:p-8 flex flex-col items-center">
-        {/* Render Result Page here */}
-      </div>
-    );
-  }
+ 
 
   return (
     <div className="flex flex-col lg:flex-row h-screen">
