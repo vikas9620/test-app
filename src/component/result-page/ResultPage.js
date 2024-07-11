@@ -4,6 +4,7 @@ import 'chart.js/auto';
 import 'tailwindcss/tailwind.css';
 
 const ResultPage = ({ questions, answers, notes }) => {
+  // Calculate correct, wrong, and skipped answers
   const correctAnswers = questions.filter(
     (question, index) => answers[index] === question.correct_option
   ).length;
@@ -16,6 +17,7 @@ const ResultPage = ({ questions, answers, notes }) => {
   const skippedAnswers = totalQuestions - (correctAnswers + wrongAnswers);
   const scorePercentage = (correctAnswers / totalQuestions) * 100;
 
+  // Data for different Doughnut charts
   const overallData = {
     labels: ["Correct Answers", "Wrong Answers", "Skipped Questions"],
     datasets: [
@@ -28,34 +30,34 @@ const ResultPage = ({ questions, answers, notes }) => {
   };
 
   const correctData = {
-    labels: ["Correct Answers", "unknown answers"],
+    labels: ["Correct Answers", "Unknown Answers"],
     datasets: [
       {
         label: "Correct Answers",
-        data: [correctAnswers,totalQuestions-correctAnswers],
-        backgroundColor: ["#4CAF50","black"],
+        data: [correctAnswers, totalQuestions - correctAnswers],
+        backgroundColor: ["#4CAF50", "white"],
       },
     ],
   };
 
   const wrongData = {
-    labels: ["Wrong Answers", "unknown answers"],
+    labels: ["Wrong Answers", "Unknown Answers"],
     datasets: [
       {
         label: "Wrong Answers",
-        data: [wrongAnswers, totalQuestions-wrongAnswers],
-        backgroundColor: ["#FF6384", "black"],
+        data: [wrongAnswers, totalQuestions - wrongAnswers],
+        backgroundColor: ["#FF6384", "white"],
       },
     ],
   };
 
   const skippedData = {
-    labels: ["Skipped Questions", "unskipped Questions"],
+    labels: ["Skipped Questions", "Unskipped Questions"],
     datasets: [
       {
         label: "Skipped Questions",
-        data: [skippedAnswers, totalQuestions- skippedAnswers],
-        backgroundColor: ["#FFCE56", "black"],
+        data: [skippedAnswers, totalQuestions - skippedAnswers],
+        backgroundColor: ["#FFCE56", "white"],
       },
     ],
   };
@@ -77,7 +79,7 @@ const ResultPage = ({ questions, answers, notes }) => {
   }, []);
 
   return (
-    <div className="result-page p-4 lg:p-8 flex flex-col items-center">
+    <div className="result-page p-4 lg:p-8 flex flex-col items-center bg-slate-300">
       <h2 className="text-2xl font-bold mb-4">Overall Results</h2>
       
       <div className="w-full lg:w-2/3 grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8">
@@ -102,7 +104,9 @@ const ResultPage = ({ questions, answers, notes }) => {
       </div>
       
       <div className="w-full lg:w-1/2 h-80 mb-8">
-        <Doughnut data={overallData} options={options} />
+      <div className="w-full h-full">
+      <Doughnut data={overallData} options={options} />
+    </div>
       </div>
       
       <p className="mt-4 text-lg">Total Score: {scorePercentage.toFixed(2)}%</p>
